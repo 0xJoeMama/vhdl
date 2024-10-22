@@ -1,0 +1,9 @@
+standard = "1993"
+
+[libraries]
+locker.files = [
+  "src/locker.vhdl"
+]
+
+[lint]
+unused = "error"
