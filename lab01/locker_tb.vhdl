@@ -78,6 +78,7 @@ begin
     assert led0 = '0'
     report "bad result" severity error;
 
+    report "Tests passed!" severity note;
     wait;
   end process;
 end behavior;
