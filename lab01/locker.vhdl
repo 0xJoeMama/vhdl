@@ -8,7 +8,7 @@ entity locker is
   );
 end entity;
 
--- sdi2400168 therefore, we need 8 which in binary is 1000
+-- we need 8 which in binary is 1000
 -- to match 1000 with the 4 signals we must do the following:
 -- - digit3 * !digit2 * !digit1 * !digit0
 architecture Dataflow of locker is

@@ -1,4 +1,5 @@
 LIBRARY ieee; USE ieee.std_logic_1164.ALL;
+use ieee.numeric_std.all;
 use std.textio.all;
  
 entity locker_tb IS
@@ -8,15 +9,15 @@ architecture behavior OF locker_tb IS
     -- Component Declaration for the Unit Under Test (UUT)
   component locker
     port(
-      digit3, digit2, digit1, digit0   : in std_logic;
-      lock_out : out std_logic
+      digit3, digit2, digit1, digit0   : in STD_LOGIC;
+      lock_out : out STD_LOGIC
     );
   end component;
 
   --Inputs
-  signal sw3, sw2, sw1, sw0 : std_logic;
+  signal sw3, sw2, sw1, sw0 : STD_LOGIC;
   --Outputs
-  signal led0 : std_logic;
+  signal led0 : STD_LOGIC;
 begin
   uut: locker port map (
     digit0 => sw0,
@@ -28,56 +29,31 @@ begin
 
   -- Test process
   test_proc: process
+    variable bits: STD_LOGIC_VECTOR(3 downto 0);
   begin		
-    sw3<='0';sw2<='0';sw1<='0';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='0';sw1<='0';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='0';sw1<='1';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='0';sw1<='1';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='1';sw1<='0';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='1';sw1<='0';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='1';sw1<='1';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='0';sw2<='1';sw1<='1';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='0';sw1<='0';sw0<='0';wait for 20 ns;
-    assert led0 = '1'
-    report "bad result" severity error;
-    sw3<='1';sw2<='0';sw1<='0';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='0';sw1<='1';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='0';sw1<='1';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='1';sw1<='0';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='1';sw1<='0';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='1';sw1<='1';sw0<='0';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
-    sw3<='1';sw2<='1';sw1<='1';sw0<='1';wait for 20 ns;
-    assert led0 = '0'
-    report "bad result" severity error;
 
+    for i in 0 to 9 loop
+      if i /= 8 then 
+        bits := STD_LOGIC_VECTOR(to_unsigned(i, 4));
+        sw3 <= bits(3);
+        sw2 <= bits(2);
+        sw1 <= bits(1); 
+        sw0 <= bits(0);
+
+        wait for 20 ns;
+
+        assert led0 = '0' report "bad result" severity error;
+      end if;
+    end loop;
+
+    sw3 <= '1';
+    sw2 <= '0';
+    sw1 <= '0';
+    sw0 <= '0';
+
+    wait for 20 ns;
+
+    assert led0 = '1' report "bad result" severity error;
     report "Tests passed!" severity note;
     wait;
   end process;
