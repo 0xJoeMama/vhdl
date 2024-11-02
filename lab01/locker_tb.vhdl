@@ -33,7 +33,6 @@ begin
   begin		
 
     for i in 0 to 9 loop
-      if i /= 8 then 
         bits := STD_LOGIC_VECTOR(to_unsigned(i, 4));
         sw3 <= bits(3);
         sw2 <= bits(2);
@@ -42,18 +41,13 @@ begin
 
         wait for 20 ns;
 
+      if i /= 8 then 
         assert led0 = '0' report "bad result" severity error;
+      else
+        assert led0 = '1' report "bad result" severity error;
       end if;
     end loop;
 
-    sw3 <= '1';
-    sw2 <= '0';
-    sw1 <= '0';
-    sw0 <= '0';
-
-    wait for 20 ns;
-
-    assert led0 = '1' report "bad result" severity error;
     report "Tests passed!" severity note;
     wait;
   end process;
