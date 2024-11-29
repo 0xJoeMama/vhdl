@@ -1,0 +1,3 @@
+build/
+*.o
+ssd_decoder_tb
